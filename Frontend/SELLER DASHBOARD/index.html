@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | QuickPick</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        /* Chat Specific Styles (copied from buyer dashboard for consistency, adjust if needed) */
+        .chat-list-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        .chat-list-item:hover {
+            background-color: #f8f9fa;
+        }
+        .chat-list-item.active {
+            background-color: #e9ecef;
+            font-weight: 600;
+        }
+        .chat-messages {
+            height: 400px; /* Fixed height for scrollable messages */
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column; /* For messages to stack */
+            margin-bottom: 15px;
+        }
+        .message {
+            max-width: 70%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            word-wrap: break-word; /* Ensure long words wrap */
+        }
+        .message.sent {
+            align-self: flex-end; /* Align to right */
+            background-color: #007bff;
+            color: white;
+            border-bottom-right-radius: 2px; /* Sharper corner for tail effect */
+        }
+        .message.received {
+            align-self: flex-start; /* Align to left */
+            background-color: #e9ecef;
+            color: #333;
+            border-bottom-left-radius: 2px; /* Sharper corner for tail effect */
+        }
+        .message-sender {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-bottom: 2px;
+        }
+        .message-timestamp {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.7); /* For sent messages */
+            text-align: right;
+            margin-top: 2px;
+        }
+        .message.received .message-timestamp {
+            color: #6c757d; /* For received messages */
+        }
+
+        .chat-input-area {
+            display: flex;
+        }
+        .chat-input-area input {
+            flex-grow: 1;
+            border-radius: 20px; /* Rounded input */
+            padding-right: 40px; /* Space for send icon */
+        }
+        .chat-input-area .btn {
+            border-radius: 50%; /* Circular send button */
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: -35px; /* Overlap input for compact look */
+            z-index: 1; /* Ensure button is on top */
+        }
+        .unread-badge {
+            font-size: 0.75rem;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar bg-dark text-white">
+            <div class="sidebar-brand p-3">
+                <a class="navbar-brand" href="#">
+                    <img src="../logo.png" alt="QuickPick Logo" class="me-2" style="height: 30px;">
+                    <span class="brand-text">QuickPick</span>
+                </a>
+            </div>
+            <hr class="sidebar-divider">
+            <ul class="nav flex-column p-3">
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link active" data-target="overview-section" href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="my-products-section" href="#" id="my-products-link"><i class="bi bi-box-seam me-2"></i> My Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="add-new-product-section" href="#" id="add-product-link"><i class="bi bi-plus-square me-2"></i> Add New Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="orders-section" href="#"><i class="bi bi-cart-fill me-2"></i> Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="messages-section" href="#" id="messages-sidebar-link"><i class="bi bi-chat-dots-fill me-2"></i> Messages <span class="badge bg-danger rounded-pill ms-2 d-none" id="total-unread-messages">0</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="analytics-section" href="#"><i class="bi bi-bar-chart-line-fill me-2"></i> Analytics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="settings-section" href="#"><i class="bi bi-gear-fill me-2"></i> Settings</a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a class="nav-link" href="/Frontend/Register-login/register-login.html" id="logout-btn"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-content p-4">
+            <h2 class="dashboard-title mb-4">Seller Dashboard</h2>
+
+            <section id="overview-section" class="content-section">
+                <h3>Overview</h3>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-box-seam-fill text-primary mb-2" style="font-size: 2rem;"></i>
+                            <h4 class="mb-0">Total Products</h4>
+                            <span class="text-muted" id="total-products-count">0</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-cart-check-fill text-success mb-2" style="font-size: 2rem;"></i>
+                            <h4 class="mb-0">New Orders</h4>
+                            <span class="text-muted">15</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-currency-dollar text-info mb-2" style="font-size: 2rem;"></i>
+                            <h4 class="mb-0">Total Earnings</h4>
+                            <span class="text-muted">$12,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Recent Orders</h3>
+                <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#1001</td>
+                                    <td>John Doe</td>
+                                    <td>2025-05-06</td>
+                                    <td>$45.00</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#1002</td>
+                                    <td>Jane Smith</td>
+                                    <td>2025-05-05</td>
+                                    <td>$78.50</td>
+                                    <td><span class="badge bg-success">Shipped</span></td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Product Statistics</h3>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <h4>Top Selling Product</h4>
+                            <p class="mb-0">Awesome Gadget X <span class="text-muted">(58 Sales)</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <h4>Lowest Stock Product</h4>
+                            <p class="mb-0">Basic T-Shirt (12 Units)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="my-products-section" class="content-section d-none">
+                <h3>My Products</h3>
+                <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-products-table-body">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">Loading products...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p id="no-products-message" class="text-center text-muted d-none">No products added yet.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="add-new-product-section" class="content-section d-none">
+                <h3>Add New Product</h3>
+                <div class="dashboard-card bg-white shadow-sm rounded p-4">
+                    <form id="add-product-form">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="productDescription" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="productPrice" class="form-label">Price ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="productPrice" name="price" required min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="productCategory" class="form-label">Category</label>
+                                <select class="form-select" id="productCategory" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Home & Kitchen">Home & Kitchen</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Beauty">Beauty</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productStock" class="form-label">Stock Quantity</label>
+                            <input type="number" class="form-control" id="productStock" name="stock" required min="0">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+                    <div id="product-message-container" class="mt-3"></div>
+                </div>
+            </section>
+
+            <section id="orders-section" class="content-section d-none">
+                <h3>Orders</h3>
+                <p>Order management content goes here...</p>
+            </section>
+            
+            <!-- Messages Section (NEW for Seller Dashboard - This is the crucial part) -->
+            <section id="messages-section" class="content-section d-none">
+                <h3>Messages</h3>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3 h-100">
+                            <h4 class="mb-3">Your Chats</h4>
+                            <div id="chat-list" class="list-group list-group-flush overflow-auto" style="max-height: calc(100vh - 250px);">
+                                <!-- Chat list items will be loaded here -->
+                                <p class="text-center text-muted mt-3" id="no-chats-message">No active chats.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3 h-100 d-flex flex-column">
+                            <h4 class="mb-3" id="chat-header-name">Select a Chat</h4>
+                            <p class="text-muted small" id="chat-header-product"></p>
+                            <div id="chat-messages" class="chat-messages flex-grow-1">
+                                <!-- Messages will be loaded here -->
+                                <p class="text-center text-muted">No messages yet. Start typing!</p>
+                            </div>
+                            <div class="chat-input-area mt-3">
+                                <input type="text" class="form-control" id="chat-message-input" placeholder="Type your message...">
+                                <button class="btn btn-primary" id="chat-send-btn"><i class="bi bi-send-fill"></i></button>
+                            </div>
+                            <div id="chat-message-container" class="mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="analytics-section" class="content-section d-none">
+                <h3>Analytics</h3>
+                <p>Analytics content goes here...</p>
+            </section>
+            <section id="settings-section" class="content-section d-none">
+                <h3>Settings</h3>
+                <p>Settings content goes here...</p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

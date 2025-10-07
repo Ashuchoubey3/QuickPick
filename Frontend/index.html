@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickPick | AI-Powered Hyperlocal Marketplace</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Floating Chat Button -->
+    <div class="floating-chat-btn animate__animated animate__bounceIn">
+        <i class="bi bi-chat-dots"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../Frontend/logo.png" alt="QuickPick Logo" class="me-2">
+                <span class="brand-text">QuickPick</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sellers">Sellers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary" href="Register-login/register-login.html" id="nav-login-btn">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Shop Smarter, Not Harder</h1>
+                    <p class="lead mb-4">QuickPick connects you with local sellers offering the best prices through our AI-powered negotiation platform.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#products" class="btn btn-primary btn-lg px-4">Explore Products</a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg px-4">How It Works</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image-container">
+                        <img src="s.png" alt="Shopping Illustration" class="img-fluid hero-image">
+                        <div class="floating-badge animate__animated animate__pulse animate__infinite">
+                            <span>30 min delivery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <h3 class="stat-number">10,000+</h3>
+                        <p class="stat-label">Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <h3 class="stat-number">500+</h3>
+                        <p class="stat-label">Verified Sellers</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <h3 class="stat-number">30 min</h3>
+                        <p class="stat-label">Avg. Delivery</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <h3 class="stat-number">15%</h3>
+                        <p class="stat-label">Avg. Savings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Why Choose QuickPick</h2>
+                <p class="section-subtitle">Revolutionizing your shopping experience with cutting-edge features</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h3 class="feature-title">Hyperlocal Delivery</h3>
+                        <p class="feature-description">Get your orders delivered in under 30 minutes from local sellers near you.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI Recommendation</h3>
+                        <p class="feature-description">Our AI-powered system analyzes pricing trends to recommend whether you should buy now or wait for a better deal.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="feature-title">Verified Sellers</h3>
+                        <p class="feature-description">All sellers undergo strict verification for quality assurance.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h3 class="feature-title">Price Comparison</h3>
+                        <p class="feature-description">View prices from multiple sellers to make informed decisions.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-chat-square-text"></i>
+                        </div>
+                        <h3 class="feature-title">Real-time Chat</h3>
+                        <p class="feature-description">Communicate directly with sellers for custom requests.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <h3 class="feature-title">Easy Returns</h3>
+                        <p class="feature-description">Hassle-free return policy if you're not satisfied.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">How QuickPick Works</h2>
+                <p class="section-subtitle">Get your products in just a few simple steps</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Search Products</h3>
+                        <p class="step-description">Find what you need with our intelligent search.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">AI Recommendation</h3>
+                        <p class="step-description">Buy now or leave it for the best price drop.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Confirm Order</h3>
+                        <p class="step-description">Review and confirm your purchase.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3 class="step-title">Fast Delivery</h3>
+                        <p class="step-description">Get your order in 30 minutes or less.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Sellers Section -->
+    <section id="sellers" class="sellers-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Our Trusted Sellers</h2>
+                <p class="section-subtitle">Connect with top-rated local businesses</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="seller-card">
+                        <div class="seller-badge">Top Rated</div>
+                        <img src="eshop.avif" alt="Seller 1" class="seller-image">
+                        <div class="seller-info">
+                            <h3 class="seller-name">Urban Electronics</h3>
+                            <div class="seller-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                                <span>4.5 (120)</span>
+                            </div>
+                            <p class="seller-specialty">Electronics & Gadgets</p>
+                            <a href="#" class="btn btn-outline-primary">View Products</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="seller-card">
+                        <div class="seller-badge">New</div>
+                        <img src="fshop.avif" alt="Seller 2" class="seller-image">
+                        <div class="seller-info">
+                            <h3 class="seller-name">Fashion Hub</h3>
+                            <div class="seller-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                                <span>4.0 (85)</span>
+                            </div>
+                            <p class="seller-specialty">Clothing & Accessories</p>
+                            <a href="#" class="btn btn-outline-primary">View Products</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="seller-card">
+                        <img src="hshop.jpg" alt="Seller 3" class="seller-image">
+                        <div class="seller-info">
+                            <h3 class="seller-name">Home Essentials</h3>
+                            <div class="seller-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <span>5.0 (210)</span>
+                            </div>
+                            <p class="seller-specialty">Home & Kitchen</p>
+                            <a href="#" class="btn btn-outline-primary">View Products</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="seller-card">
+                        <div class="seller-badge">Discount</div>
+                        <img src="mshop.avif" alt="Seller 4" class="seller-image">
+                        <div class="seller-info">
+                            <h3 class="seller-name">Fresh Mart</h3>
+                            <div class="seller-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                                <span>4.6 (175)</span>
+                            </div>
+                            <p class="seller-specialty">Groceries & Daily Needs</p>
+                            <a href="#" class="btn btn-outline-primary">View Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-primary">View All Sellers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Real experiences from our happy community</p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="testimonial-slider">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <p class="testimonial-text">"QuickPick's smart AI told me to wait—and I grabbed my groceries at 15% off! Their delivery was lightning fast too!"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="sarah.png" alt="Customer 1" class="author-image">
+                                <div class="author-info">
+                                    <h4 class="author-name">Sarah Johnson</h4>
+                                    <p class="author-location">Mumbai</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <p class="testimonial-text">"I love supporting local businesses, and QuickPick makes it so easy while still getting competitive prices."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="raj.png" alt="Customer 2" class="author-image">
+                                <div class="author-info">
+                                    <h4 class="author-name">Raj Patel</h4>
+                                    <p class="author-location">Delhi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <p class="testimonial-text">"The 30-minute delivery promise is real! I needed a last-minute gift and QuickPick came through."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="priya.png" alt="Customer 3" class="author-image">
+                                <div class="author-info">
+                                    <h4 class="author-name">Priya Sharma</h4>
+                                    <p class="author-location">Bangalore</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="cta-card">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2 class="cta-title">Ready to Experience Smart Shopping?</h2>
+                        <p class="cta-text">Join thousands of happy customers saving money and supporting local businesses.</p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="Register-login/register-login.html" class="btn btn-light btn-lg">Sign Up Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <img src="logo.png" alt="QuickPick Logo" class="me-2">
+                        <span class="brand-text">QuickPick</span>
+                    </div>
+                    <p class="footer-about mt-3">Revolutionizing e-commerce with AI-powered hyperlocal marketplace technology.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#sellers">Sellers</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Categories</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Home & Kitchen</a></li>
+                        <li><a href="#">Groceries</a></li>
+                        <li><a href="#">Beauty</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="footer-heading">Newsletter</h5>
+                    <p class="footer-newsletter-text">Subscribe to get updates on new features and offers.</p>
+                    <form class="newsletter-form">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="footer-copyright">&copy; 2025 QuickPick. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="footer-legal-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLoginBtn = document.getElementById('nav-login-btn');
+
+            navLoginBtn.addEventListener('click', function(event) {
+                const userToken = localStorage.getItem('quickpickToken');
+                const userString = localStorage.getItem('quickpickUser');
+
+                if (userToken && userString) {
+                    try {
+                        const user = JSON.parse(userString);
+                        let redirectPath = '';
+
+                        if (user && user.role) {
+                            switch (user.role) {
+                                case 'buyer':
+                                    redirectPath = '/Frontend/BUYER%20DASHBOARD/index.html';
+                                    break;
+                                case 'seller':
+                                    if (user.isApproved) { 
+                                        redirectPath = '/Frontend/SELLER%20DASHBOARD/index.html';
+                                    } else {
+                                        
+                                        console.warn('Seller account pending approval. Not redirecting to dashboard.');
+                                        alert('Your seller account is pending admin approval.'); 
+                                        return; 
+                                    }
+                                    break;
+                                case 'admin':
+                                case 'superadmin':
+                                    redirectPath = '/Frontend/ADMIN%20DASHBOARD/index.html';
+                                    break;
+                                default:
+                                    redirectPath = '/Frontend/COMMON_DASHBOARD/index.html';
+                                    break;
+                            }
+
+                            if (redirectPath) {
+                                event.preventDefault(); 
+                                window.location.href = `${window.origin}${redirectPath}`;
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error parsing user data from localStorage:', e);
+                        
+                    }
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html

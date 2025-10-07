@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickPick | Login / Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --text-color: #333;
+            --white: #fff;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .auth-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: row;
+
+            max-height: 95vh;
+        }
+
+        .auth-image-half {
+            background: linear-gradient(rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.6)), url('shopping-bg.jpg') no-repeat center center;
+            background-size: cover;
+            width: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            flex-direction: column;
+        }
+
+        .auth-image-half h2 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .auth-image-half p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .auth-form-half {
+            padding: 40px;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto;
+        }
+
+        .auth-form-half form {
+            padding-bottom: 20px;
+        }
+
+
+        .auth-form-half h2 {
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .text-center a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .text-center a:hover {
+            text-decoration: underline;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .tab-content .tab-pane {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .tab-content .tab-pane.active {
+            display: flex;
+        }
+
+        .alert-container {
+            min-height: 20px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                max-width: 450px;
+                max-height: 95vh;
+            }
+
+            .auth-image-half {
+                width: 100%;
+                padding: 20px;
+                height: 200px;
+            }
+
+            .auth-form-half {
+                width: 100%;
+                padding: 30px;
+                max-height: unset;
+                overflow-y: unset;
+            }
+
+            .auth-form-half form {
+                padding-bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container animate__animated animate__zoomIn">
+        <div class="auth-image-half">
+            <h2>Welcome to QuickPick!</h2>
+            <p>Your AI-powered hyperlocal marketplace. Shop smarter, not harder.</p>
+            <img src="../logo.png" alt="QuickPick Logo" style="width: 100px; margin-top: 20px;">
+        </div>
+        <div class="auth-form-half">
+            <div class="tab-buttons">
+                <button class="tab-button active" id="login-tab">Login</button>
+                <button class="tab-button" id="buyer-register-tab">Buyer Register</button>
+                <button class="tab-button" id="seller-register-tab">Seller Register</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="login-form">
+                    <h2>Login to Your Account</h2>
+                    <div id="login-message" class="alert-container"></div>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email"
+                                placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password"
+                                placeholder="********" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="text-center">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="buyer-register-form">
+                    <h2>Create Your Buyer Account</h2>
+                    <div id="buyer-register-message" class="alert-container"></div>
+                    <form id="buyerRegisterForm">
+                        <div class="mb-3">
+                            <label for="buyerRegisterFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="buyerRegisterFirstName" name="firstName"
+                                placeholder="John" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="buyerRegisterLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="buyerRegisterLastName" name="lastName"
+                                placeholder="Doe" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="buyerRegisterEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="buyerRegisterEmail" name="email"
+                                placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="buyerRegisterPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="buyerRegisterPassword" name="password"
+                                placeholder="********" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="buyerConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="buyerConfirmPassword"
+                                name="confirmPassword" placeholder="********" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="buyerAgreeTerms" required>
+                            <label class="form-check-label" for="buyerAgreeTerms">I agree to the <a href="#">Terms of
+                                    Service</a></label>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Register as Buyer</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="seller-register-form">
+                    <h2>Create Your Seller Account</h2>
+                    <div id="seller-register-message" class="alert-container"></div>
+                    <form id="sellerRegisterForm">
+                        <div class="mb-3">
+                            <label for="sellerRegisterFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="sellerRegisterFirstName" name="firstName"
+                                placeholder="Jane" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellerRegisterLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="sellerRegisterLastName" name="lastName"
+                                placeholder="Smith" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellerRegisterEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="sellerRegisterEmail" name="email"
+                                placeholder="shop@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellerRegisterMobile" class="form-label">Mobile Number</label>
+                            <input type="tel" class="form-control" id="sellerRegisterMobile" name="mobileNumber"
+                                placeholder="9876543210" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellerRegisterPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="sellerRegisterPassword" name="password"
+                                placeholder="********" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellerConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="sellerConfirmPassword"
+                                name="confirmPassword" placeholder="********" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="shopName" class="form-label">Shop Name</label>
+                            <input type="text" class="form-control" id="shopName" name="shopName"
+                                placeholder="QuickMart" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="shopAddress" class="form-label">Shop Address</label>
+                            <textarea class="form-control" id="shopAddress" name="shopAddress" rows="3"
+                                placeholder="123 Main St, Anytown" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gstNumber" class="form-label">GST Number (Optional)</label>
+                            <input type="text" class="form-control" id="gstNumber" name="gstNumber"
+                                placeholder="ABCDE1234F5G6H7">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="sellerAgreeTerms" required>
+                            <label class="form-check-label" for="sellerAgreeTerms">I agree to the <a href="#">Terms of
+                                    Service</a></label>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Register as Seller</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching logic
+            const loginTab = document.getElementById('login-tab');
+            const buyerRegisterTab = document.getElementById('buyer-register-tab');
+            const sellerRegisterTab = document.getElementById('seller-register-tab');
+
+            const loginFormSection = document.getElementById('login-form');
+            const buyerRegisterFormSection = document.getElementById('buyer-register-form');
+            const sellerRegisterFormSection = document.getElementById('seller-register-form');
+
+            function activateTab(tabToActivate, sectionToActivate) {
+                loginTab.classList.remove('active');
+                buyerRegisterTab.classList.remove('active');
+                sellerRegisterTab.classList.remove('active');
+
+                loginFormSection.classList.remove('active');
+                buyerRegisterFormSection.classList.remove('active');
+                sellerRegisterFormSection.classList.remove('active');
+
+                tabToActivate.classList.add('active');
+                sectionToActivate.classList.add('active');
+
+                clearMessages();
+            }
+
+            loginTab.addEventListener('click', function() {
+                activateTab(loginTab, loginFormSection);
+            });
+
+            buyerRegisterTab.addEventListener('click', function() {
+                activateTab(buyerRegisterTab, buyerRegisterFormSection);
+            });
+
+            sellerRegisterTab.addEventListener('click', function() {
+                activateTab(sellerRegisterTab, sellerRegisterFormSection);
+            });
+
+            const BACKEND_URL = 'http://localhost:5001';
+
+            const loginForm = document.getElementById('loginForm');
+            const buyerRegisterForm = document.getElementById('buyerRegisterForm');
+            const sellerRegisterForm = document.getElementById('sellerRegisterForm');
+
+            const loginMessageDiv = document.getElementById('login-message');
+            const buyerRegisterMessageDiv = document.getElementById('buyer-register-message');
+            const sellerRegisterMessageDiv = document.getElementById('seller-register-message');
+
+            function displayMessage(div, message, type = 'danger') {
+                div.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+            }
+
+            function clearMessages() {
+                loginMessageDiv.innerHTML = '';
+                buyerRegisterMessageDiv.innerHTML = '';
+                sellerRegisterMessageDiv.innerHTML = '';
+            }
+
+            // Login Form Submission
+            loginForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                clearMessages();
+
+                const email = loginForm.elements['email'].value;
+                const password = loginForm.elements['password'].value;
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email,
+                            password
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        displayMessage(loginMessageDiv, data.message || 'Login successful!', 'success');
+                        localStorage.setItem('quickpickToken', data.token);
+                        localStorage.setItem('quickpickUser', JSON.stringify(data.user)); // Store the whole user object
+
+                        // --- REDIRECTION LOGIC ---
+                        let redirectPath = '';
+                        if (data.user && data.user.role) {
+                            switch (data.user.role) {
+                                case 'buyer':
+                                    redirectPath = '/Frontend/BUYER%20DASHBOARD/index.html';
+                                    break;
+                                case 'seller':
+                                    // Check if seller is approved before redirecting to dashboard
+                                    if (data.user.isApproved) {
+                                        redirectPath = '/Frontend/SELLER%20DASHBOARD/index.html'; // Assuming a Seller Dashboard path
+                                    } else {
+                                        displayMessage(loginMessageDiv, 'Your seller account is pending admin approval. You cannot access the dashboard yet.', 'warning');
+                                        // Don't redirect, just show message
+                                        return; // Exit function after displaying message
+                                    }
+                                    break;
+                                case 'admin':
+                                    redirectPath = '/Frontend/ADMIN%20DASHBOARD/index.html'; // Assuming an Admin Dashboard path
+                                    break;
+                                default:
+                                    redirectPath = '/Frontend/COMMON_DASHBOARD/index.html'; // Default if role is unknown or not set
+                                    break;
+                            }
+                        } else {
+                            redirectPath = '/Frontend/COMMON_DASHBOARD/index.html'; // Fallback if no role is provided
+                        }
+
+                        // Perform redirection after a short delay
+                        setTimeout(() => {
+                            window.location.href = `${window.origin}${redirectPath}`;
+                        }, 1000); // Shortened delay for faster redirection
+
+                    } else {
+                        displayMessage(loginMessageDiv, data.message || 'Login failed. Please try again.');
+                        console.error('Login error:', data.message || 'Unknown error');
+                    }
+                } catch (error) {
+                    console.error('Network or server error during login:', error);
+                    displayMessage(loginMessageDiv, 'Network error. Please try again later.');
+                }
+            });
+
+            // Buyer Registration Form Submission
+            buyerRegisterForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                clearMessages();
+
+                const firstName = buyerRegisterForm.elements['firstName'].value;
+                const lastName = buyerRegisterForm.elements['lastName'].value;
+                const email = buyerRegisterForm.elements['email'].value;
+                const password = buyerRegisterForm.elements['password'].value;
+                const confirmPassword = buyerRegisterForm.elements['confirmPassword'].value;
+                const agreeTerms = buyerRegisterForm.elements['buyerAgreeTerms'].checked;
+
+                if (password !== confirmPassword) {
+                    displayMessage(buyerRegisterMessageDiv, 'Passwords do not match.');
+                    return;
+                }
+
+                if (!agreeTerms) {
+                    displayMessage(buyerRegisterMessageDiv, 'You must agree to the Terms of Service.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/register`, { // Existing buyer registration endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName,
+                            lastName,
+                            email,
+                            password
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        displayMessage(buyerRegisterMessageDiv, data.message || 'Buyer registration successful! You can now log in.', 'success');
+                        console.log('Buyer registration successful:', data);
+
+                        setTimeout(() => {
+                            activateTab(loginTab, loginFormSection); // Switch to login tab
+                            buyerRegisterForm.reset();
+                        }, 2000);
+                    } else {
+                        let errorMessage = data.message || 'Buyer registration failed. Please check your input.';
+                        if (data.errors && data.errors.length > 0) {
+                            errorMessage += '<br>' + data.errors.join('<br>');
+                        }
+                        displayMessage(buyerRegisterMessageDiv, errorMessage);
+                        console.error('Buyer registration error:', data.message || 'Unknown error', data.errors);
+                    }
+                } catch (error) {
+                    console.error('Network or server error during buyer registration:', error);
+                    displayMessage(buyerRegisterMessageDiv, 'Network error. Please try again later.');
+                }
+            });
+
+            // Seller Registration Form Submission
+            sellerRegisterForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                clearMessages();
+
+                const firstName = sellerRegisterForm.elements['firstName'].value;
+                const lastName = sellerRegisterForm.elements['lastName'].value;
+                const email = sellerRegisterForm.elements['email'].value;
+                const mobileNumber = sellerRegisterForm.elements['mobileNumber'].value;
+                const password = sellerRegisterForm.elements['password'].value;
+                const confirmPassword = sellerRegisterForm.elements['confirmPassword'].value;
+                const shopName = sellerRegisterForm.elements['shopName'].value;
+                const shopAddress = sellerRegisterForm.elements['shopAddress'].value;
+                const gstNumber = sellerRegisterForm.elements['gstNumber'].value;
+                const agreeTerms = sellerRegisterForm.elements['sellerAgreeTerms'].checked;
+
+
+                if (password !== confirmPassword) {
+                    displayMessage(sellerRegisterMessageDiv, 'Passwords do not match.');
+                    return;
+                }
+
+                if (!agreeTerms) {
+                    displayMessage(sellerRegisterMessageDiv, 'You must agree to the Terms of Service.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/seller/register`, { // New seller registration endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName,
+                            lastName,
+                            email,
+                            mobileNumber,
+                            password,
+                            shopName,
+                            shopAddress,
+                            gstNumber
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        displayMessage(sellerRegisterMessageDiv, data.message || 'Seller registration successful! You can now log in.', 'success');
+                        console.log('Seller registration successful:', data);
+
+                        setTimeout(() => {
+                            activateTab(loginTab, loginFormSection); // Switch to login tab
+                            sellerRegisterForm.reset();
+                        }, 2000);
+                    } else {
+                        let errorMessage = data.message || 'Seller registration failed. Please check your input.';
+                        if (data.errors && data.errors.length > 0) {
+                            errorMessage += '<br>' + data.errors.join('<br>');
+                        }
+                        displayMessage(sellerRegisterMessageDiv, errorMessage);
+                        console.error('Seller registration error:', data.message || 'Unknown error', data.errors);
+                    }
+                } catch (error) {
+                    console.error('Network or server error during seller registration:', error);
+                    displayMessage(sellerRegisterMessageDiv, 'Network error. Please try again later.');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

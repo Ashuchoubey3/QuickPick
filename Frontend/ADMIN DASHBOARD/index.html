@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | QuickPick</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles.css"> <!-- Assuming global styles.css in Frontend/ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css"> <!-- Custom CSS for admin dashboard -->
+    <style>
+        /* Basic dashboard card styling */
+        .dashboard-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard-card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        .dashboard-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        /* Specific styling for the user management tabs */
+        .nav-tabs .nav-link {
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar bg-dark text-white">
+            <div class="sidebar-brand p-3">
+                <a class="navbar-brand" href="#">
+                    <img src="../logo.png" alt="QuickPick Logo" class="me-2" style="height: 30px;">
+                    <span class="brand-text">QuickPick</span>
+                </a>
+            </div>
+            <hr class="sidebar-divider">
+            <ul class="nav flex-column p-3">
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link active" data-target="overview-section" href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="manage-users-section" href="#"><i class="bi bi-people-fill me-2"></i> Manage Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="manage-products-section" href="#"><i class="bi bi-boxes me-2"></i> Manage Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="analytics-section" href="#"><i class="bi bi-bar-chart-line-fill me-2"></i> Analytics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link" data-target="settings-section" href="#"><i class="bi bi-gear-fill me-2"></i> Settings</a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a class="nav-link" href="/Frontend/Register-login/register-login.html" id="logout-btn"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-content p-4">
+            <h2 class="dashboard-title mb-4">Admin Dashboard</h2>
+
+            <!-- Overview Section -->
+            <section id="overview-section" class="content-section">
+                <h3>Overview</h3>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-person-fill text-primary mb-2"></i>
+                            <h4 class="mb-0">Total Buyers</h4>
+                            <span class="text-muted" id="total-buyers-count">0</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-shop-window text-success mb-2"></i>
+                            <h4 class="mb-0">Total Sellers</h4>
+                            <span class="text-muted" id="total-sellers-count">0</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <i class="bi bi-box-seam-fill text-info mb-2"></i>
+                            <h4 class="mb-0">Total Products</h4>
+                            <span class="text-muted" id="total-products-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Pending Seller Approvals</h3>
+                <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Registered On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pending-sellers-table-body">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No pending approvals.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Users Section -->
+            <section id="manage-users-section" class="content-section d-none">
+                <h3>Manage Users</h3>
+                <ul class="nav nav-tabs mb-3" id="userTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="buyers-tab" data-bs-toggle="tab" data-bs-target="#buyers-pane" type="button" role="tab" aria-controls="buyers-pane" aria-selected="true">Buyers</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sellers-tab" data-bs-toggle="tab" data-bs-target="#sellers-pane" type="button" role="tab" aria-controls="sellers-pane" aria-selected="false">Sellers</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="userTabContent">
+                    <div class="tab-pane fade show active" id="buyers-pane" role="tabpanel" aria-labelledby="buyers-tab" tabindex="0">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Registered On</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="buyers-table-body">
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Loading buyers...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p id="no-buyers-message" class="text-center text-muted d-none">No buyers found.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="sellers-pane" role="tabpanel" aria-labelledby="sellers-tab" tabindex="0">
+                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Shop Name</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Registered On</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sellers-table-body">
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">Loading sellers...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p id="no-sellers-message" class="text-center text-muted d-none">No sellers found.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Products Section -->
+            <section id="manage-products-section" class="content-section d-none">
+                <h3>Manage Products</h3>
+                <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Seller</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-products-table-body">
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">Loading products...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p id="no-all-products-message" class="text-center text-muted d-none">No products found.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="content-section d-none">
+                <h3>Analytics</h3>
+                <p>Analytics dashboards and reports will be displayed here.</p>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section d-none">
+                <h3>Settings</h3>
+                <p>Admin account settings and preferences.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
