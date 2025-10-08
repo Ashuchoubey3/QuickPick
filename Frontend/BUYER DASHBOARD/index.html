@@ -1,361 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Buyer Dashboard | QuickPick</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
     <style>
-        #recommendation-result {
-            background-color: #e9ecef;
-            border-left: 5px solid #007bff;
-            padding: 1rem;
-            border-radius: 5px;
-            font-style: italic;
-            color: #333;
-            margin-top: 1.5rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+      #recommendation-result {
+        background-color: #e9ecef;
+        border-left: 5px solid #007bff;
+        padding: 1rem;
+        border-radius: 5px;
+        font-style: italic;
+        color: #333;
+        margin-top: 1.5rem;
+        animation: fadeIn 0.5s ease-in-out;
+      }
 
-        #recommendation-result.hidden {
-            display: none;
-        }
+      #recommendation-result.hidden {
+        display: none;
+      }
 
-        #recommendation-loading {
-            display: none; 
-            margin-top: 1rem;
-        }
+      #recommendation-loading {
+        display: none;
+        margin-top: 1rem;
+      }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
+        to {
+          opacity: 1;
+        }
+      }
 
-        .product-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            height: 100%; 
-        }
+      .product-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
 
-        .product-card img {
-            width: 100%;
-            height: 180px; 
-            object-fit: cover;
-            border-bottom: 1px solid #eee;
-        }
+      .product-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+      }
 
-        .product-card-body {
-            padding: 15px;
-            flex-grow: 1; /* Allows body to expand and push footer to bottom */
-            display: flex;
-            flex-direction: column;
-        }
+      .product-card-body {
+        padding: 15px;
+        flex-grow: 1; /* Allows body to expand and push footer to bottom */
+        display: flex;
+        flex-direction: column;
+      }
 
-        .product-card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
+      .product-card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+      }
 
-        .product-card-category {
-            font-size: 0.85rem;
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
+      .product-card-category {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 5px;
+      }
 
-        .product-card-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
+      .product-card-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #007bff;
+        margin-bottom: 10px;
+      }
 
-        .product-card-seller {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 10px;
-        }
+      .product-card-seller {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
 
-        .product-card-status {
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-        
-        .product-card-footer {
-            padding: 15px;
-            border-top: 1px solid #eee;
-            background-color: #f8f9fa;
-        }
+      .product-card-status {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+      }
 
-        .table-responsive {
-            overflow-x: auto;
-        }
+      .product-card-footer {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        background-color: #f8f9fa;
+      }
 
-        .chat-list-item {
-            cursor: pointer;
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
-        }
-        .chat-list-item:hover {
-            background-color: #f8f9fa;
-        }
-        .chat-list-item.active {
-            background-color: #e9ecef;
-            font-weight: 600;
-        }
-        .chat-messages {
-            height: 400px; /* Fixed height for scrollable messages */
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column; /* For messages to stack */
-            margin-bottom: 15px;
-        }
-        .message {
-            max-width: 70%;
-            padding: 8px 12px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            word-wrap: break-word; /* Ensure long words wrap */
-        }
-        .message.sent {
-            align-self: flex-end; /* Align to right */
-            background-color: #007bff;
-            color: white;
-            border-bottom-right-radius: 2px; /* Sharper corner for tail effect */
-        }
-        .message.received {
-            align-self: flex-start; /* Align to left */
-            background-color: #e9ecef;
-            color: #333;
-            border-bottom-left-radius: 2px; /* Sharper corner for tail effect */
-        }
-        .message-sender {
-            font-size: 0.75rem;
-            color: #6c757d;
-            margin-bottom: 2px;
-        }
-        .message-timestamp {
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.7); /* For sent messages */
-            text-align: right;
-            margin-top: 2px;
-        }
-        .message.received .message-timestamp {
-            color: #6c757d; /* For received messages */
-        }
+      .table-responsive {
+        overflow-x: auto;
+      }
 
-        .chat-input-area {
-            display: flex;
-        }
-        .chat-input-area input {
-            flex-grow: 1;
-            border-radius: 20px; /* Rounded input */
-            padding-right: 40px; /* Space for send icon */
-        }
-        .chat-input-area .btn {
-            border-radius: 50%; /* Circular send button */
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: -35px; /* Overlap input for compact look */
-            z-index: 1; /* Ensure button is on top */
-        }
-        .unread-badge {
-            font-size: 0.75rem;
-            padding: 3px 6px;
-            border-radius: 50%;
-        }
+      .chat-list-item {
+        cursor: pointer;
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+      }
+      .chat-list-item:hover {
+        background-color: #f8f9fa;
+      }
+      .chat-list-item.active {
+        background-color: #e9ecef;
+        font-weight: 600;
+      }
+      .chat-messages {
+        height: 400px; /* Fixed height for scrollable messages */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column; /* For messages to stack */
+        margin-bottom: 15px;
+      }
+      .message {
+        max-width: 70%;
+        padding: 8px 12px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        word-wrap: break-word; /* Ensure long words wrap */
+      }
+      .message.sent {
+        align-self: flex-end; /* Align to right */
+        background-color: #007bff;
+        color: white;
+        border-bottom-right-radius: 2px; /* Sharper corner for tail effect */
+      }
+      .message.received {
+        align-self: flex-start; /* Align to left */
+        background-color: #e9ecef;
+        color: #333;
+        border-bottom-left-radius: 2px; /* Sharper corner for tail effect */
+      }
+      .message-sender {
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-bottom: 2px;
+      }
+      .message-timestamp {
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.7); /* For sent messages */
+        text-align: right;
+        margin-top: 2px;
+      }
+      .message.received .message-timestamp {
+        color: #6c757d; /* For received messages */
+      }
+
+      .chat-input-area {
+        display: flex;
+      }
+      .chat-input-area input {
+        flex-grow: 1;
+        border-radius: 20px; /* Rounded input */
+        padding-right: 40px; /* Space for send icon */
+      }
+      .chat-input-area .btn {
+        border-radius: 50%; /* Circular send button */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: -35px; /* Overlap input for compact look */
+        z-index: 1; /* Ensure button is on top */
+      }
+      .unread-badge {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+        border-radius: 50%;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="dashboard-container">
-        <aside class="dashboard-sidebar bg-dark text-white">
-            <div class="sidebar-brand p-3">
-                <a class="navbar-brand" href="#">
-                    <img src="../logo.png" alt="QuickPick Logo" class="me-2" style="height: 30px;">
-                    <span class="brand-text">QuickPick</span>
-                </a>
+      <aside class="dashboard-sidebar bg-dark text-white">
+        <div class="sidebar-brand p-3">
+          <a class="navbar-brand" href="#">
+            <img
+              src="../logo.png"
+              alt="QuickPick Logo"
+              class="me-2"
+              style="height: 30px"
+            />
+            <span class="brand-text">QuickPick</span>
+          </a>
+        </div>
+        <hr class="sidebar-divider" />
+        <ul class="nav flex-column p-3">
+          <li class="nav-item">
+            <a
+              class="nav-link sidebar-link active"
+              data-target="overview-section"
+              href="#"
+              ><i class="bi bi-speedometer2 me-2"></i> Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link sidebar-link"
+              data-target="all-products-section"
+              href="#"
+              ><i class="bi bi-boxes me-2"></i> All Products</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link sidebar-link"
+              data-target="my-orders-section"
+              href="#"
+              ><i class="bi bi-bag-check-fill me-2"></i> My Orders</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link sidebar-link" data-target="cart-section" href="#"
+              ><i class="bi bi-cart-fill me-2"></i>My Cart</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link sidebar-link"
+              data-target="messages-section"
+              href="#"
+              id="messages-sidebar-link"
+              ><i class="bi bi-chat-dots-fill me-2"></i> Messages
+              <span
+                class="badge bg-danger rounded-pill ms-2 d-none"
+                id="total-unread-messages"
+                >0</span
+              ></a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link sidebar-link"
+              data-target="settings-section"
+              href="#"
+              ><i class="bi bi-gear-fill me-2"></i> Settings</a
+            >
+          </li>
+          <li class="nav-item mt-4">
+            <a
+              class="nav-link"
+              href="/Frontend/Register-login/register-login.html"
+              id="logout-btn"
+              ><i class="bi bi-box-arrow-left me-2"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </aside>
+
+      <main class="dashboard-content p-4">
+        <h2 class="dashboard-title mb-4">Buyer Dashboard</h2>
+
+        <section id="overview-section" class="content-section">
+          <h3>Overview</h3>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                <i
+                  class="bi bi-cart-fill text-primary mb-2"
+                  style="font-size: 2rem"
+                ></i>
+                <h4 class="mb-0">Total Orders</h4>
+                <span class="text-muted">7</span>
+              </div>
             </div>
-            <hr class="sidebar-divider">
-            <ul class="nav flex-column p-3">
-                <li class="nav-item">
-                    <a class="nav-link sidebar-link active" data-target="overview-section" href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link sidebar-link" data-target="all-products-section" href="#"><i class="bi bi-boxes me-2"></i> All Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link sidebar-link" data-target="my-orders-section" href="#"><i class="bi bi-bag-check-fill me-2"></i> My Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link sidebar-link" data-target="messages-section" href="#" id="messages-sidebar-link"><i class="bi bi-chat-dots-fill me-2"></i> Messages <span class="badge bg-danger rounded-pill ms-2 d-none" id="total-unread-messages">0</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link sidebar-link" data-target="settings-section" href="#"><i class="bi bi-gear-fill me-2"></i> Settings</a>
-                </li>
-                <li class="nav-item mt-4">
-                    <a class="nav-link" href="/Frontend/Register-login/register-login.html" id="logout-btn"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
-                </li>
-            </ul>
-        </aside>
+            <div class="col-md-4">
+              <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                <i
+                  class="bi bi-currency-dollar text-success mb-2"
+                  style="font-size: 2rem"
+                ></i>
+                <h4 class="mb-0">Total Spent</h4>
+                <span class="text-muted">$345.50</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="dashboard-card bg-white shadow-sm rounded p-3">
+                <i
+                  class="bi bi-tag-fill text-info mb-2"
+                  style="font-size: 2rem"
+                ></i>
+                <h4 class="mb-0">Products Viewed</h4>
+                <span class="text-muted">210</span>
+              </div>
+            </div>
+          </div>
 
-        <main class="dashboard-content p-4">
-            <h2 class="dashboard-title mb-4">Buyer Dashboard</h2>
+          <h3 class="mt-4">Recent Purchases</h3>
+          <div class="dashboard-card bg-white shadow-sm rounded p-3">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#B-001</td>
+                    <td>Wireless Earbuds</td>
+                    <td>2025-05-10</td>
+                    <td>$59.99</td>
+                    <td><span class="badge bg-success">Delivered</span></td>
+                  </tr>
+                  <tr>
+                    <td>#B-002</td>
+                    <td>Organic Groceries</td>
+                    <td>2025-05-08</td>
+                    <td>$32.10</td>
+                    <td><span class="badge bg-info">Processing</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
-            <section id="overview-section" class="content-section">
-                <h3>Overview</h3>
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
-                            <i class="bi bi-cart-fill text-primary mb-2" style="font-size: 2rem;"></i>
-                            <h4 class="mb-0">Total Orders</h4>
-                            <span class="text-muted">7</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
-                            <i class="bi bi-currency-dollar text-success mb-2" style="font-size: 2rem;"></i>
-                            <h4 class="mb-0">Total Spent</h4>
-                            <span class="text-muted">$345.50</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dashboard-card bg-white shadow-sm rounded p-3">
-                            <i class="bi bi-tag-fill text-info mb-2" style="font-size: 2rem;"></i>
-                            <h4 class="mb-0">Products Viewed</h4>
-                            <span class="text-muted">210</span>
-                        </div>
-                    </div>
+        <section id="all-products-section" class="content-section d-none">
+          <h3>All Products</h3>
+          <div class="dashboard-card bg-white shadow-sm rounded p-3 mb-4">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                id="recommendation-product-name"
+                class="form-control"
+                placeholder="Enter product name for recommendation"
+              />
+              <button class="btn btn-primary" id="get-recommendation-btn">
+                Get Recommendation
+              </button>
+            </div>
+            <div
+              id="recommendation-loading"
+              class="text-center text-primary py-3"
+            >
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2">Getting AI recommendation...</p>
+            </div>
+            <div id="recommendation-result" class="hidden"></div>
+            <div id="recommendation-message-container"></div>
+          </div>
+
+          <div class="dashboard-card bg-white shadow-sm rounded p-3">
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+              id="all-products-grid"
+            ></div>
+            <p
+              id="no-all-products-message"
+              class="text-center text-muted d-none mt-4"
+            >
+              No products found.
+            </p>
+          </div>
+        </section>
+
+        <section id="cart-section" class="content-section d-none">
+          <h3>My Cart</h3>
+
+          <div class="dashboard-card bg-white shadow-sm rounded p-3 mb-4">
+            <div
+              id="cart-items"
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+            ></div>
+            <p
+              id="empty-cart-message"
+              class="text-center text-muted d-none mt-4"
+            >
+              Your cart is empty.
+            </p>
+          </div>
+
+          <div class="dashboard-card bg-white shadow-sm rounded p-3">
+            <h5>Order Summary</h5>
+            <p>Total Items: <span id="cart-total-items">0</span></p>
+            <p>Total Price: ₹<span id="cart-total-price">0</span></p>
+            <span id="cart-count" class="badge bg-primary">0</span>
+
+            <button class="btn btn-success w-100 mt-3" id="checkout-btn">
+              Proceed to Checkout
+            </button>
+          </div>
+        </section>
+
+        <section id="my-orders-section" class="content-section d-none">
+          <h3>My Orders</h3>
+          <p>Your order history will be displayed here.</p>
+        </section>
+
+        <section id="messages-section" class="content-section d-none">
+          <h3>Messages</h3>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="dashboard-card bg-white shadow-sm rounded p-3 h-100">
+                <h4 class="mb-3">Your Chats</h4>
+                <div
+                  id="chat-list"
+                  class="list-group list-group-flush overflow-auto"
+                  style="max-height: calc(100vh - 250px)"
+                >
+                  <p class="text-center text-muted mt-3" id="no-chats-message">
+                    No active chats.
+                  </p>
                 </div>
-
-                <h3 class="mt-4">Recent Purchases</h3>
-                <div class="dashboard-card bg-white shadow-sm rounded p-3">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Product</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#B-001</td>
-                                    <td>Wireless Earbuds</td>
-                                    <td>2025-05-10</td>
-                                    <td>$59.99</td>
-                                    <td><span class="badge bg-success">Delivered</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#B-002</td>
-                                    <td>Organic Groceries</td>
-                                    <td>2025-05-08</td>
-                                    <td>$32.10</td>
-                                    <td><span class="badge bg-info">Processing</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div
+                class="dashboard-card bg-white shadow-sm rounded p-3 h-100 d-flex flex-column"
+              >
+                <h4 class="mb-3" id="chat-header-name">Select a Chat</h4>
+                <p class="text-muted small" id="chat-header-product"></p>
+                <div id="chat-messages" class="chat-messages flex-grow-1">
+                  <p class="text-center text-muted">
+                    No messages yet. Start typing!
+                  </p>
                 </div>
-            </section>
-
-            <section id="all-products-section" class="content-section d-none">
-                <h3>All Products</h3>
-                <div class="dashboard-card bg-white shadow-sm rounded p-3 mb-4">
-                    <div class="input-group mb-3">
-                        <input type="text" id="recommendation-product-name" class="form-control" placeholder="Enter product name for recommendation">
-                        <button class="btn btn-primary" id="get-recommendation-btn">Get Recommendation</button>
-                    </div>
-                    <div id="recommendation-loading" class="text-center text-primary py-3">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="mt-2">Getting AI recommendation...</p>
-                    </div>
-                    <div id="recommendation-result" class="hidden"></div>
-                    <div id="recommendation-message-container"></div>
+                <div class="chat-input-area mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="chat-message-input"
+                    placeholder="Type your message..."
+                  />
+                  <button class="btn btn-primary" id="chat-send-btn">
+                    <i class="bi bi-send-fill"></i>
+                  </button>
                 </div>
+                <div id="chat-message-container" class="mt-2"></div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                <div class="dashboard-card bg-white shadow-sm rounded p-3">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="all-products-grid">
-                    </div>
-                    <p id="no-all-products-message" class="text-center text-muted d-none mt-4">No products found.</p>
-                </div>
-            </section>
-
-            <section id="my-orders-section" class="content-section d-none">
-                <h3>My Orders</h3>
-                <p>Your order history will be displayed here.</p>
-            </section>
-
-            <section id="messages-section" class="content-section d-none">
-                <h3>Messages</h3>
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="dashboard-card bg-white shadow-sm rounded p-3 h-100">
-                            <h4 class="mb-3">Your Chats</h4>
-                            <div id="chat-list" class="list-group list-group-flush overflow-auto" style="max-height: calc(100vh - 250px);">
-                                <p class="text-center text-muted mt-3" id="no-chats-message">No active chats.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="dashboard-card bg-white shadow-sm rounded p-3 h-100 d-flex flex-column">
-                            <h4 class="mb-3" id="chat-header-name">Select a Chat</h4>
-                            <p class="text-muted small" id="chat-header-product"></p>
-                            <div id="chat-messages" class="chat-messages flex-grow-1">
-                                <p class="text-center text-muted">No messages yet. Start typing!</p>
-                            </div>
-                            <div class="chat-input-area mt-3">
-                                <input type="text" class="form-control" id="chat-message-input" placeholder="Type your message...">
-                                <button class="btn btn-primary" id="chat-send-btn"><i class="bi bi-send-fill"></i></button>
-                            </div>
-                            <div id="chat-message-container" class="mt-2"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="settings-section" class="content-section d-none">
-                <h3>Settings</h3>
-                <p>Manage your account settings here.</p>
-            </section>
-
-        </main>
+        <section id="settings-section" class="content-section d-none">
+          <h3>Settings</h3>
+          <p>Manage your account settings here.</p>
+        </section>
+      </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
     <script src="buyer-dashboard.js"></script>
-</body>
-
+  </body>
 </html>
