@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const recommendationMessageContainer = document.getElementById(
     "recommendation-message-container"
   );
-
   const messagesSidebarLink = document.getElementById("messages-sidebar-link");
   const totalUnreadMessagesBadge = document.getElementById(
     "total-unread-messages"
@@ -584,6 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  //My cart fuctonality  
   getRecommendationBtn.addEventListener("click", getRecommendation);
   let cart = [];
   const CART_STORAGE_KEY = "quickpickCart";
@@ -601,65 +601,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return parseFloat(num).toFixed(2);
   }
 
-  function updateCartUI() {
-    const cartItemsEl = document.getElementById("cart-items");
-    const emptyCartMessage = document.getElementById("empty-cart-message");
-    // const cartCountEl = document.getElementById("cart-count"); // optional
-
-    if (!cartItemsEl) return;
-
-    cartItemsEl.innerHTML = "";
-    if (cart.length === 0) {
-      emptyCartMessage.classList.remove("d-none");
-      // if (cartCountEl) cartCountEl.textContent = 0;
-    } else {
-      emptyCartMessage.classList.add("d-none");
-      cart.forEach((item) => {
-        cartItemsEl.insertAdjacentHTML(
-          "beforeend",
-          `<div class="col">
-                    <div class="card shadow-sm p-3 h-100">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <h6 class="mb-1">${item.name}</h6>
-                            <button class="btn btn-sm btn-link text-danger p-0 btn-remove-item" data-product-id="${
-                              item.id
-                            }">&times;</button>
-                        </div>
-                        <p class="mb-1 small text-muted">₹${formatCurrency(
-                          item.price
-                        )} each</p>
-                        <div class="d-flex align-items-center justify-content-between mt-auto">
-                            <div class="input-group input-group-sm" style="width:110px;">
-                                <button class="btn btn-outline-secondary btn-decrease-qty" data-product-id="${
-                                  item.id
-                                }" type="button">-</button>
-                                <input type="text" class="form-control text-center cart-item-qty" data-product-id="${
-                                  item.id
-                                }" value="${item.qty}">
-                                <button class="btn btn-outline-secondary btn-increase-qty" data-product-id="${
-                                  item.id
-                                }" type="button">+</button>
-                            </div>
-                            <div class="text-end fw-bold">₹${formatCurrency(
-                              item.qty * item.price
-                            )}</div>
-                        </div>
-                    </div>
-                </div>`
-        );
-      });
-    }
-
-    // Update totals in your summary section
-    const totalItemsEl = document.getElementById("cart-total-items");
-    const totalPriceEl = document.getElementById("cart-total-price");
-    if (totalItemsEl && totalPriceEl) {
-      const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
-      const totalPrice = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
-      totalItemsEl.textContent = totalItems;
-      totalPriceEl.textContent = totalPrice.toFixed(2);
-    }
-  }
+  
   function updateCartUI() {
     const cartItemsEl = document.getElementById("cart-items");
     const emptyCartMessage = document.getElementById("empty-cart-message");
@@ -715,7 +657,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Update cart counts and totals
     const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
     const totalPrice = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
     cartCountEl.textContent = totalQty;
@@ -739,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCartUI();
   }
 
-  // Load cart on page load
+ 
   loadCartFromStorage();
   updateCartUI();
 
@@ -791,7 +732,8 @@ document.addEventListener("DOMContentLoaded", function () {
         loadMessages(chatId);
       }
     }
-    window.location.reload();
+    window.location.reload(); // for reload page after add to cart
+       
   });
 
   document.getElementById("cart-items").addEventListener("click", function (e) {
@@ -829,6 +771,126 @@ document.addEventListener("DOMContentLoaded", function () {
       saveCartToStorage();
       updateCartUI();
     });
+
+ //My orders and checkout
+  const checkoutBtn = document.getElementById("checkout-btn");
+  const checkoutSection = document.getElementById("checkout-section");
+  const cartSection = document.getElementById("cart-section");
+  const backToCartBtn = document.getElementById("back-to-cart-btn");
+  const placeOrderBtn = document.getElementById("place-order-btn");
+ checkoutBtn.addEventListener("click", (e) => {
+   e.preventDefault(); 
+
+   if (!cart || cart.length === 0) {
+     alert("Your cart is empty. Add items before checkout.");
+     return; 
+   }
+
+   
+   checkoutSection.classList.remove("d-none");
+   cartSection.classList.add("d-none");
+ });
+
+  backToCartBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    checkoutSection.classList.add("d-none");
+    cartSection.classList.remove("d-none");
+  });
+  placeOrderBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const fullname = document.getElementById("fullname").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const pincode = document.getElementById("pincode").value.trim();
+    const paymentMethod = document.querySelector(
+      'input[name="payment"]:checked'
+    )?.id;
+
+    // Validation
+    if (!fullname || !mobile || !address || !pincode) {
+      alert("Please fill all address fields.");
+      return;
+    }
+    if (mobile.length !== 10 || isNaN(mobile)) {
+      alert("Enter a valid 10-digit mobile number.");
+      return;
+    }
+    if (pincode.length !== 6 || isNaN(pincode)) {
+      alert("Enter a valid 6-digit pincode.");
+      return;
+    }
+
+    // Save order
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push({
+      items: JSON.parse(localStorage.getItem("cartItems")) || [],
+      fullname,
+      mobile,
+      address,
+      pincode,
+      paymentMethod,
+      date: new Date().toLocaleString(),
+    });
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    alert(`Order placed successfully!\nPayment Method: ${paymentMethod}`);
+
+    localStorage.removeItem("cartItems");
+    cart = [];
+    updateCartUI();
+
+      window.location.reload();
+   
+  });
+    
+function renderOrders() {
+  const ordersListEl = document.getElementById("orders-list");
+  ordersListEl.innerHTML = "";
+
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  if (orders.length === 0) {
+    ordersListEl.innerHTML = `<p class="text-muted">You have no orders yet.</p>`;
+    return;
+  }
+
+  // Show latest orders on top
+  orders
+    .slice()
+    .reverse()
+    .forEach((order, index) => {
+      let itemsHtml = "";
+      order.items.forEach((item) => {
+        itemsHtml += `
+                <div class="d-flex justify-content-between border-bottom pb-1 mb-1">
+                    <span>${item.name} (x${item.qty})</span>
+                    <span>₹${item.price * item.qty}</span>
+                </div>`;
+      });
+
+      ordersListEl.insertAdjacentHTML(
+        "beforeend",
+        `<div class="card p-3 mb-3 shadow-sm">
+                <h6>Order #${orders.length - index} - ${order.date}</h6>
+                <div>${itemsHtml}</div>
+                <p><strong>Address:</strong> ${order.fullname}, ${
+          order.mobile
+        }, ${order.address}, ${order.pincode}</p>
+                <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+            </div>`
+      );
+    });
+}
+
+  document
+    .querySelector(".sidebar-link[data-target='my-orders-section']")
+    .addEventListener("click", () => {
+      showSection("orders-section"); // your existing function to switch sections
+      renderOrders(); // populate orders dynamically
+    }); 
+
+    
 
   chatList.addEventListener("click", function (event) {
     const target = event.target.closest(".chat-list-item");
